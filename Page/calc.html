@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Calculator</title>
+  <style>
+    .calculator {
+      width: 220px;
+      padding: 20px;
+      background-color: #f1f1f1;
+      border-radius: 5px;
+    }
+
+    .calculator input {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .calculator .row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .calculator .btn {
+      flex-basis: 48%;
+      padding: 10px;
+      font-size: 16px;
+      text-align: center;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .calculator .btn.equal {
+      flex-basis: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" id="display" disabled>
+    <div class="row">
+      <input type="button" class="btn" value="7" onclick="appendNumber('7')">
+      <input type="button" class="btn" value="8" onclick="appendNumber('8')">
+      <input type="button" class="btn" value="9" onclick="appendNumber('9')">
+      <input type="button" class="btn" value="/" onclick="appendOperator('/')">
+    </div>
+    <div class="row">
+      <input type="button" class="btn" value="4" onclick="appendNumber('4')">
+      <input type="button" class="btn" value="5" onclick="appendNumber('5')">
+      <input type="button" class="btn" value="6" onclick="appendNumber('6')">
+      <input type="button" class="btn" value="*" onclick="appendOperator('*')">
+    </div>
+    <div class="row">
+      <input type="button" class="btn" value="1" onclick="appendNumber('1')">
+      <input type="button" class="btn" value="2" onclick="appendNumber('2')">
+      <input type="button" class="btn" value="3" onclick="appendNumber('3')">
+      <input type="button" class="btn" value="-" onclick="appendOperator('-')">
+    </div>
+    <div class="row">
+      <input type="button" class="btn" value="0" onclick="appendNumber('0')">
+      <input type="button" class="btn" value="." onclick="appendNumber('.')">
+      <input type="button" class="btn equal" value="=" onclick="calculate()">
+      <input type="button" class="btn" value="+" onclick="appendOperator('+')">
+    </div>
+    <div class="row">
+      <input type="button" class="btn" value="C" onclick="clearDisplay()">
+    </div>
+  </div>
+
+  <script>
+    function appendNumber(number) {
+      document.getElementById('display').value += number;
+    }
+
+    function appendOperator(operator) {
+      document.getElementById('display').value += operator;
+    }
+
+    function calculate() {
+      const expression = document.getElementById('display').value;
+      const result = eval(expression);
+      document.getElementById('display').value = result;
+    }
+
+    function clearDisplay() {
+      document.getElementById('display').value = '';
+    }
+  </script>
+</body>
+</html>

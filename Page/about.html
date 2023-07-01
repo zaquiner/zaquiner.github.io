@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Zaquiner- ABOUT</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Varela Round', sans-serif;
+            overflow: hidden;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom right, yellow, orange, red);
+            z-index: -1;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .button-container {
+            margin-top: 30px;
+        }
+
+        .button {
+            position: relative;
+            background-color: transparent;
+            color: rgb(0, 0, 0);
+            padding: 20px 40px;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            font-family: 'Varela Round', sans-serif;
+            overflow: hidden;
+            z-index: 1;
+            display: block;
+            margin: 10px auto;
+            text-decoration: none;
+        }
+
+        .button::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 0;
+            height: 4px;
+            background-color: #FF0000;
+            transition: width 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: -1;
+        }
+
+        .button:hover::before {
+            width: 100%;
+            left: 0;
+        }
+
+        .button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .image {
+            margin-right: 20px;
+    }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background"></div>
+    <div class="container">
+        <h1 style="font-family: 'Varela Round', sans-serif; font-weight: bold;">ABOUT</h1>
+        <br>
+        <p style="font-family: 'Varela Round', sans-serif;">As an independent developer, I run a company called Zaquiner, specializing in creating websites in HTML, CSS and JavaScript. <br> My goal is to provide high-quality Internet solutions that meet the expectations and needs of my clients. <br>
+
+            I am passionate about designing and creating aesthetic and functional websites. <br> My HTML skills allow me to create page structures that are well organized and easy to navigate. <br> In addition, I use CSS to give a unique look and feel to my designs, which attracts the attention of users. <br>
+            
+            In the area of JavaScript, although I'm still learning, I try to use available functions and techniques to make pages more interactive and dynamic. <br> Even though I haven't mastered all aspects of this programming language yet, I am constantly engaged in developing my skills and exploring its more advanced aspects. <br>
+            
+            As the owner of Zaquiner, I attach great importance to understanding the needs of my clients and providing them with solutions that are in line with their vision. <br> I strive to use my creativity and technical know-how to create websites that not only attract attention, but are also efficient, responsive and adapted to various devices. <br>
+            
+            My company, Zaquiner, is customer-centric and always strives to satisfy customers by providing high-quality development services.</p>
+        <br>
+        <br>
+        <button class="button" onclick="document.location='index.html'">BACK TO HOMEPAGE</button>
+        </div>
+    </div>
+
+    <script>
+        function showAlert(text) {
+            alert(text);
+        }
+    </script>
+</body>
+</html>
