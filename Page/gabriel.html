@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gabriel - El talentoso jefe de Zaquiner, especializado en el desarrollo de sitios web</title>
+  <style>
+    body {
+      background-color: #292929;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      animation: slide-up 1s ease-in-out;
+    }
+
+    h1 {
+      font-size: 72px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    p {
+      font-size: 24px;
+      margin-bottom: 40px;
+    }
+
+    #gameCanvas {
+      background-color: #1a1a1a;
+      border: 2px solid #fff;
+    }
+
+    #pauseButton {
+      margin-top: 20px;
+      background-color: #ff0000;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    #pauseButton:hover {
+      background-color: #8d0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 style="font-family: Copperplate Gothic Light, sans-serif;">Bienvenido a mi página</h1>
+    <p style="font-family: Copperplate Gothic Light, sans-serif;">Soy Gabriel, el talentoso jefe de Zaquiner, especializado en el desarrollo de sitios web. Con mi creatividad y experiencia, creo páginas web excepcionales y únicas que cautivan a los visitantes. Mi objetivo es combinar diseños modernos, animaciones impresionantes y una funcionalidad impecable para ofrecer experiencias en línea inolvidables.</p>
+    <canvas id="gameCanvas" width="400" height="300"></canvas>
+    <button id="pauseButton">Pausar Juego</button>
+  </div>
+
+  <script>
+    // Código JavaScript aquí
+
+    // Juego de Snake
+    const canvas = document.getElementById('gameCanvas');
+    const context = canvas.getContext('2d');
+
+    const gridSize = 20;
+    const gridSizeInPixels = canvas.width / gridSize;
+
+    let snake = [{ x: 4, y: 4 }];
+    let direction = 'right';
+    let gamePaused = false;
+    let fruit = { x: 8, y: 8 };
+    let gameSpeed = 150; // Velocidad del juego en milisegundos (menor número es más rápido)
+
+    function drawSnake() {
+      snake.forEach(segment => {
+        context.fillStyle = '#ffffff';
+        context.fillRect(
+          segment.x * gridSizeInPixels,
+          segment.y * gridSizeInPixels,
+          gridSizeInPixels,
+          gridSizeInPixels
+        );
+      });
+    }
+
+    function drawFruit() {
+      context.fillStyle = '#00ff00';
+      context.fillRect(
+        fruit.x * gridSizeInPixels,
+        fruit.y * gridSizeInPixels,
+        gridSizeInPixels,
+        gridSizeInPixels
+      );
+    }
+
+    function moveSnake() {
+      if (gamePaused) return;
+
+      const head = { x: snake[0].x, y: snake[0].y };
+
+      switch (direction) {
+        case 'up':
+          head.y--;
+          break;
+        case 'down':
+          head.y++;
+          break;
+        case 'left':
+          head.x--;
+          break;
+        case 'right':
+          head.x++;
+          break;
+      }
+
+      snake.unshift(head);
+
+      if (head.x === fruit.x && head.y === fruit.y) {
+        generateNewFruit();
+      } else {
+        snake.pop();
+      }
+    }
+
+    function generateNewFruit() {
+      const minX = 0;
+      const maxX = (canvas.width / gridSizeInPixels) - 1;
+      const minY = 0;
+      const maxY = (canvas.height / gridSizeInPixels) - 1;
+
+      fruit = {
+        x: Math.floor(Math.random() * (maxX - minX + 1)) + minX,
+        y: Math.floor(Math.random() * (maxY - minY + 1)) + minY
+      };
+    }
+
+    function checkCollision() {
+      const head = snake[0];
+
+      if (
+        head.x < 0 ||
+        head.x >= (canvas.width / gridSizeInPixels) ||
+        head.y < 0 ||
+        head.y >= (canvas.height / gridSizeInPixels) ||
+        isSnakeCollision()
+      ) {
+        gameOver();
+      }
+    }
+
+    function isSnakeCollision() {
+      const head = snake[0];
+      return snake.some((segment, index) => index !== 0 && segment.x === head.x && segment.y === head.y);
+    }
+
+    function gameOver() {
+      gamePaused = true;
+      alert('Game Over');
+      resetGame();
+    }
+
+    function resetGame() {
+      snake = [{ x: 4, y: 4 }];
+      direction = 'right';
+      gamePaused = false;
+      generateNewFruit();
+    }
+
+    function handleKeydown(event) {
+      if (gamePaused) return;
+
+      const keyPressed = event.key;
+
+      switch (keyPressed) {
+        case 'ArrowUp':
+          if (direction !== 'down') direction = 'up';
+          break;
+        case 'ArrowDown':
+          if (direction !== 'up') direction = 'down';
+          break;
+        case 'ArrowLeft':
+          if (direction !== 'right') direction = 'left';
+          break;
+        case 'ArrowRight':
+          if (direction !== 'left') direction = 'right';
+          break;
+      }
+    }
+
+    function drawGame() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      drawSnake();
+      drawFruit();
+    }
+
+    function gameLoop() {
+      moveSnake();
+      checkCollision();
+      drawGame();
+
+      if (!gamePaused) {
+        setTimeout(gameLoop, gameSpeed);
+      }
+    }
+
+    generateNewFruit();
+    gameLoop();
+
+    document.addEventListener('keydown', handleKeydown);
+    document.getElementById('pauseButton').addEventListener('click', toggleGamePause);
+
+    function toggleGamePause() {
+      gamePaused = !gamePaused;
+
+      if (gamePaused) {
+        document.getElementById('pauseButton').textContent = 'Reanudar Juego';
+      } else {
+        document.getElementById('pauseButton').textContent = 'Pausar Juego';
+        gameLoop();
+      }
+    }
+
+    // Początkowy kod JavaScript
+
+// ...
+
+document.addEventListener('keydown', handleKeydown);
+document.getElementById('pauseButton').addEventListener('click', toggleGamePause);
+
+// Dodaj obsługę zdarzeń dotyku
+document.addEventListener('touchstart', handleTouchStart);
+document.addEventListener('touchmove', handleTouchMove);
+
+// Funkcje obsługujące zdarzenia dotyku
+let touchStartX = 0;
+let touchStartY = 0;
+
+function handleTouchStart(event) {
+  touchStartX = event.touches[0].clientX;
+  touchStartY = event.touches[0].clientY;
+}
+
+function handleTouchMove(event) {
+  if (gamePaused) return;
+
+  const touchX = event.touches[0].clientX;
+  const touchY = event.touches[0].clientY;
+
+  const dx = touchX - touchStartX;
+  const dy = touchY - touchStartY;
+
+  // Sprawdź, czy przesunięcie dotyku jest większe w poziomie czy pionie
+  if (Math.abs(dx) > Math.abs(dy)) {
+    // Przesunięcie w poziomie
+    if (dx > 0 && direction !== 'left') {
+      direction = 'right';
+    } else if (dx < 0 && direction !== 'right') {
+      direction = 'left';
+    }
+  } else {
+    // Przesunięcie w pionie
+    if (dy < 0 && direction !== 'down') {
+      direction = 'up';
+    } else if (dy > 0 && direction !== 'up') {
+      direction = 'down';
+    }
+  }
+}
+  </script>
+</body>
+</html>
