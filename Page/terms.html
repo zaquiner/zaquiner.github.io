@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TÉRMINOS Y CONDICIONES</title>
+  <style>
+    body {
+      margin: 0;
+      overflow-y: hidden; /* Hide vertical scrollbar */
+      background-color: black;
+    }
+
+    header {
+      background-color: black;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 5px solid white; /* Biały brzeg na dole headera */
+    }
+
+    .content-wrapper {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      line-height: 1.6;
+      background-color: white; /* Białe tło paragrafu */
+      border: 5px solid black; /* Czarne brzegi paragrafu */
+      overflow-y: auto; /* Enable vertical scrollbar for content */
+      max-height: 80vh; /* Set maximum height for the content */
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TÉRMINOS Y CONDICIONES</h1>
+  </header>
+
+  <canvas id="space"></canvas>
+
+  <div class="content-wrapper">
+    <p>
+ 1. Cotización y oferta:
+<br>
+a. Cada cliente recibirá una cotización personalizada adaptada a sus necesidades y requisitos únicos para el proyecto.<br>
+b. La cotización incluirá todos los servicios web que la empresa Zaquiner ofrece, basados en las especificaciones del proyecto del cliente.<br>
+c. En caso de nuevos requisitos o cambios en el proyecto, la cotización puede ser actualizada después de consultar previamente con el cliente.<br>
+<br>
+2. Condiciones de pago:
+<br>
+a. Una vez finalizado el proyecto, el cliente recibirá una factura por el servicio con el precio total.<br>
+b. La entrega del pedido estará sujeta a la confirmación del pago por parte del cliente.<br>
+c. Tras recibir el pago completo, el cliente recibirá un certificado de compra que confirma el acuerdo para llevar a cabo el proyecto.<br>
+<br>
+3. Plazos de ejecución:
+<br>
+a. Se presentará un cronograma definido al cliente antes de comenzar el proyecto.<br>
+b. Zaquiner hará todo lo posible por cumplir con los plazos establecidos. En caso de cualquier retraso, el cliente será informado de inmediato, se discutirán las causas y se acordarán nuevos planes de ejecución.<br>
+<br>
+4. Comunicación:
+<br>
+a. La comunicación con los clientes se llevará a cabo únicamente por correo electrónico.<br>
+b. El cliente puede contactarnos a través de la dirección de correo electrónico.<br>
+c. Responderemos a los correos electrónicos en el menor tiempo posible.<br>
+<br>
+5. Privacidad y confidencialidad:
+<br>
+a. Zaquiner mantendrá total confidencialidad y no divulgará información sobre el proyecto o datos del cliente a terceros sin el expreso consentimiento del cliente.<br>
+b. El cliente puede revisar nuestra política de privacidad en nuestro sitio web, donde encontrará información detallada sobre la recopilación, almacenamiento y procesamiento de datos personales.<br>
+<br>
+6. Garantía de calidad:
+<br>
+a. Zaquiner se esfuerza por proporcionar servicios de la más alta calidad.<br>
+b. Si el cliente encuentra algún problema o discrepancia en el proyecto, haremos todo lo posible por solucionarlo en el menor tiempo posible.<br>
+<br>
+7. Restricciones de pedidos:
+<br>
+a. Zaquiner se reserva el derecho de rechazar pedidos de contenidos o proyectos inapropiados, ofensivos, ilegales o que infrinjan los derechos de autor.<br>
+b. Los pedidos no pueden contener materiales de naturaleza pornográfica, vulgar, que promuevan el odio, la violencia o que fomenten acciones ilegales.<br>
+<br>
+Estas políticas de servicio sirven como pautas para colaborar con la empresa Zaquiner, garantizando un enfoque profesional y la plena satisfacción de los clientes. Si tiene alguna pregunta o duda, nuestro personal está dispuesto a ayudar a aclarar estas políticas y el proceso de colaboración. ¡Gracias por colaborar con Zaquiner!
+    </p>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('space');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Gwiazdy - tablica do przechowywania współrzędnych x, y i rozmiaru gwiazd
+    const stars = [];
+
+    // Funkcja losująca liczbę z zakresu
+    function randomRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    // Tworzenie gwiazd
+    function createStars() {
+      for (let i = 0; i < 200; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const size = Math.random() * 3;
+        stars.push({ x, y, size });
+      }
+    }
+
+    // Animacja kosmicznego tła
+    function animate() {
+      requestAnimationFrame(animate);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = 'white';
+      for (let i = 0; i < stars.length; i++) {
+        const star = stars[i];
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Przesunięcie gwiazdy w lewo, aby wydawało się, że poruszają się w kosmosie
+        star.x -= 0.5;
+        if (star.x < 0) {
+          star.x = canvas.width;
+        }
+      }
+    }
+
+    createStars();
+    animate();
+  </script>
+</body>
+</html>
